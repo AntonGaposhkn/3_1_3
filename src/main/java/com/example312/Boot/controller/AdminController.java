@@ -7,8 +7,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-//Сюда заходит только админ
+
 @Controller
+//Сюда заходит только админ
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -45,8 +46,8 @@ public class AdminController {
     }
 
     @PostMapping("/users")
-    public String addUser(@ModelAttribute("user") User user) {
-        userService.addUser(user); // Добавляем этого юзера в БД
+    public String addUser(@ModelAttribute("user") User user, @RequestParam String role) {
+        userService.addUser(user, role); // Добавляем этого юзера в БД
         return "redirect:/admin/users";
     }
 
@@ -57,8 +58,8 @@ public class AdminController {
     }
 
     @PatchMapping("/users/{id}")
-    public String update(@ModelAttribute("user") User updateUser, @PathVariable("id") long id) {
-        userService.updateUser(id, updateUser); //Находим по id того юзера, которого надо изменить
+    public String update(@ModelAttribute("user") User updateUser, @PathVariable("id") long id, @RequestParam String role) {
+        userService.updateUser(id, updateUser, role); //Находим по id того юзера, которого надо изменить
         return "redirect:/admin/users";
     }
 

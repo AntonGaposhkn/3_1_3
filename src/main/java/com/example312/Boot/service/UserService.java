@@ -2,15 +2,14 @@ package com.example312.Boot.service;
 
 
 import com.example312.Boot.model.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService extends UserDetailsService {
+public interface UserService {
 
     List <User> getAllUsers();
     User getUserById (long id);
-    void addUser(User user);
+    void addUser(User user, String role);
     void delete(long id);
-    void updateUser (long id, User updateUser);;
+    void updateUser (long id, User updateUser, String role);
 }

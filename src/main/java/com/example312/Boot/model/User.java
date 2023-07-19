@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,7 +20,10 @@ public class User implements UserDetails {
     private String password;
     private Byte age;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER) // lazy defolt не работает
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
 
     public User() {
@@ -29,6 +33,14 @@ public class User implements UserDetails {
         this.name = name;
         this.surname = surname;
         this.age = age;
+    }
+
+    public User(String name, String surname, String password, Byte age, Set<Role> roles) {
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.age = age;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -69,6 +81,21 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name)
+                && Objects.equals(surname, user.surname) && Objects.equals(password, user.password)
+                && Objects.equals(age, user.age);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, password, age);
     }
 
     @Override

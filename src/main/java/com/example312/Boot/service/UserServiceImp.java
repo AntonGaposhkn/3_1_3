@@ -1,13 +1,9 @@
 package com.example312.Boot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 import com.example312.Boot.dao.UserDAO;
 import com.example312.Boot.model.User;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -34,8 +30,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
-        userDAO.addUser(user);
+    public void addUser(User user, String role) {
+        userDAO.addUser(user, role);
     }
 
     @Override
@@ -44,12 +40,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void updateUser (long id, User updateUser) {
-        userDAO.updateUser(id, updateUser);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userDAO.getUserByName(username);
+    public void updateUser (long id, User updateUser, String role) {
+        userDAO.updateUser(id, updateUser, role);
     }
 }
